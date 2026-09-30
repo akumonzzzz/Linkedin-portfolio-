@@ -20,8 +20,10 @@
      Palettes follow each project's published colours; "site" skins also
      switch data-layout, which restyles the page structure in CSS. */
   var THEMES = [
-    { id: 'nebula', name: 'Nebula', group: 'original', mode: 'dark', by: 'Original design', pair: 'nebula-light', c: ['#06080f', '#0b0f1a', '#e8ecf5', '#5eead4', '#a78bfa', '#f472b6'] },
-    { id: 'nebula-light', name: 'Nebula Light', group: 'original', mode: 'light', by: 'Original design', pair: 'nebula', c: ['#f6f7fb', '#eceff6', '#0d1222', '#0f766e', '#7c3aed', '#db2777'] },
+    { id: 'notebook', name: 'Notebook', group: 'original', layout: 'notebook', mode: 'light', by: 'Default · research-notebook style', pair: 'notebook-dark', c: ['#f7f5ef', '#efece3', '#1c1c1a', '#1f4e8c', '#67655e', '#a1391f'] },
+    { id: 'notebook-dark', name: 'Notebook Dark', group: 'original', layout: 'notebook', mode: 'dark', by: 'Default, after hours', pair: 'notebook', c: ['#161614', '#1e1e1b', '#ebe8e0', '#8fb2e6', '#97938a', '#e39a7f'] },
+    { id: 'nebula', name: 'Nebula', group: 'original', mode: 'dark', by: 'First version', pair: 'nebula-light', c: ['#06080f', '#0b0f1a', '#e8ecf5', '#5eead4', '#a78bfa', '#f472b6'] },
+    { id: 'nebula-light', name: 'Nebula Light', group: 'original', mode: 'light', by: 'First version', pair: 'nebula', c: ['#f6f7fb', '#eceff6', '#0d1222', '#0f766e', '#7c3aed', '#db2777'] },
     { id: 'github-dark', name: 'GitHub Dark', group: 'site', layout: 'github', mode: 'dark', by: 'Inspired by GitHub (Primer)', pair: 'github-light', c: ['#0d1117', '#161b22', '#e6edf3', '#58a6ff', '#a371f7', '#3fb950'] },
     { id: 'github-light', name: 'GitHub Light', group: 'site', layout: 'github', mode: 'light', by: 'Inspired by GitHub (Primer)', pair: 'github-dark', c: ['#ffffff', '#f6f8fa', '#1f2328', '#0969da', '#8250df', '#1a7f37'] },
     { id: 'vscode', name: 'VS Code', group: 'site', layout: 'vscode', mode: 'dark', by: 'Inspired by VS Code Dark+', c: ['#1e1e1e', '#252526', '#d4d4d4', '#4ec9b0', '#569cd6', '#007acc'] },
@@ -45,7 +47,7 @@
     for (i = 0; i < THEMES.length; i++) if (THEMES[i].id.replace(/-/g, '').indexOf(q) === 0) return THEMES[i];
     return null;
   }
-  function currentTheme() { return findTheme(root.dataset.theme || 'nebula') || THEMES[0]; }
+  function currentTheme() { return findTheme(root.dataset.theme || 'notebook') || THEMES[0]; }
   function setTheme(id, quiet) {
     var t = findTheme(id) || THEMES[0], prevLayout = root.dataset.layout || '';
     root.dataset.theme = t.id; root.dataset.mode = t.mode;
@@ -64,8 +66,8 @@
     var t = currentTheme();
     if (t.mode === 'light' && returnTo) { var r = returnTo; returnTo = null; setTheme(r); return; }
     if (t.pair) { setTheme(t.pair); return; }
-    if (t.mode === 'dark') { returnTo = t.id; setTheme('nebula-light'); return; }
-    setTheme('nebula');
+    if (t.mode === 'dark') { returnTo = t.id; setTheme('notebook'); return; }
+    setTheme('notebook-dark');
   });
 
   /* ---------------- Nav ---------------- */
@@ -287,7 +289,7 @@
   /* ---------------- Theme gallery ---------------- */
   var gallery = (function themeGallery() {
     var dlg = document.getElementById('gallery'), body = document.getElementById('galleryBody'), filter = 'all', lastFocus = null;
-    var GROUPS = [['original', 'Original', ''], ['site', 'Dev website skins', 'change colours and layout'], ['editor', 'Editor colour schemes', 'colours only']];
+    var GROUPS = [['original', 'Portfolio designs', ''], ['site', 'Dev website skins', 'change colours and layout'], ['editor', 'Editor colour schemes', 'colours only']];
     function card(t) {
       var c = t.c;
       return '<button class="tcard" data-id="' + t.id + '" aria-pressed="' + (t.id === currentTheme().id) + '" style="--pb:' + c[0] + '">' +
@@ -1064,16 +1066,16 @@
         px[o + 3] = 40 + conf * 120;
       }
       gctx.putImageData(img, 0, 0);
-      ctx.fillStyle = '#0a0d14'; ctx.fillRect(0, 0, S, S);
+      ctx.fillStyle = cssVar('--plot-bg') || '#0a0d14'; ctx.fillRect(0, 0, S, S);
       ctx.imageSmoothingEnabled = true; ctx.drawImage(grid, 0, 0, S, S);
-      ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(' + (cssVar('--line-rgb') || '255,255,255') + ',.12)'; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(S / 2, 0); ctx.lineTo(S / 2, S); ctx.moveTo(0, S / 2); ctx.lineTo(S, S / 2); ctx.stroke();
       data.forEach(function (d) {
         var x = (d.x + 1) / 2 * S, y = (1 - d.y) / 2 * S, c = COL[d.c];
         ctx.beginPath(); ctx.arc(x, y, 4.2, 0, 6.283);
         ctx.fillStyle = 'rgb(' + c.join(',') + ')'; ctx.fill(); ctx.lineWidth = 1.4; ctx.strokeStyle = '#fff'; ctx.stroke();
       });
-      if (!data.length) { ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = '13px ' + cssVar('--mono'); ctx.textAlign = 'center'; ctx.fillText('click to add points', S / 2, S / 2 - 8); ctx.textAlign = 'start'; }
+      if (!data.length) { ctx.fillStyle = cssVar('--muted') || 'rgba(255,255,255,.6)'; ctx.font = '13px ' + cssVar('--mono'); ctx.textAlign = 'center'; ctx.fillText('click to add points', S / 2, S / 2 - 8); ctx.textAlign = 'start'; }
       // loss curve
       cctx.clearRect(0, 0, 160, 60);
       if (losses.length > 1) {
@@ -1127,6 +1129,7 @@
     });
 
     data = makeData('xor'); init(); draw();
+    themeListeners.push(function () { draw(); });
     whileVisible(cv, function () {
       visible = true;
       if (!autoStarted && !reduceMotion) { autoStarted = true; setPlaying(true); }

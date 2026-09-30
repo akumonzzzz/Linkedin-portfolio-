@@ -4,12 +4,15 @@ Personal portfolio website for LinkedIn and recruiters. It's a static site in pl
 
 **Sections:** hero · highlights · about · two project case studies · lab (project #3: a model built from scratch) · Ask my portfolio · toolkit · education · contact.
 
+### Design
+The default look is a **research notebook**: off-white paper with a faint grid, dark ink, one muted blue accent, and IBM Plex Serif, Sans and Mono. Sections are numbered (§1, 2.1…), visuals are captioned as figures, the benchmark is shown as a ruled table, and the terminal is labelled as a code listing. The sun/moon button switches to Notebook Dark.
+
 ### Theme gallery
-Open it with the swatch button in the nav, the ⌘K palette, or `theme <name>` in the hero terminal. There are 17 themes in three groups:
+Visitors open it from the "Theme: … — change" link in the footer, the ⌘K palette, or `theme <name>` in the hero terminal. There are 19 themes in three groups:
 
 | Group | Themes | What changes |
 |---|---|---|
-| Original | Nebula, Nebula Light | Colours |
+| Portfolio designs | Notebook (default), Notebook Dark, Nebula (first version), Nebula Light | Notebook also changes layout and fonts |
 | Dev website skins | GitHub Dark and Light, VS Code, Terminal | Colours, fonts **and layout**: GitHub-style tabbed header and repo cards, a VS Code-style file explorer with editor tabs and a status bar, or a CRT terminal with `$ cat` prompts |
 | Editor colour schemes | Dracula, Tokyo Night, Nord, Catppuccin Mocha and Latte, Gruvbox, One Dark, Monokai, Rosé Pine, Synthwave '84, Solarized Light | Colours |
 
