@@ -16,13 +16,56 @@
     }, { threshold: 0.05 }).observe(el);
   }
 
-  /* ---------------- Theme ---------------- */
+  /* ---------------- Themes ----------------
+     Palettes follow each project's published colours; "site" skins also
+     switch data-layout, which restyles the page structure in CSS. */
+  var THEMES = [
+    { id: 'nebula', name: 'Nebula', group: 'original', mode: 'dark', by: 'Original design', pair: 'nebula-light', c: ['#06080f', '#0b0f1a', '#e8ecf5', '#5eead4', '#a78bfa', '#f472b6'] },
+    { id: 'nebula-light', name: 'Nebula Light', group: 'original', mode: 'light', by: 'Original design', pair: 'nebula', c: ['#f6f7fb', '#eceff6', '#0d1222', '#0f766e', '#7c3aed', '#db2777'] },
+    { id: 'github-dark', name: 'GitHub Dark', group: 'site', layout: 'github', mode: 'dark', by: 'Inspired by GitHub (Primer)', pair: 'github-light', c: ['#0d1117', '#161b22', '#e6edf3', '#58a6ff', '#a371f7', '#3fb950'] },
+    { id: 'github-light', name: 'GitHub Light', group: 'site', layout: 'github', mode: 'light', by: 'Inspired by GitHub (Primer)', pair: 'github-dark', c: ['#ffffff', '#f6f8fa', '#1f2328', '#0969da', '#8250df', '#1a7f37'] },
+    { id: 'vscode', name: 'VS Code', group: 'site', layout: 'vscode', mode: 'dark', by: 'Inspired by VS Code Dark+', c: ['#1e1e1e', '#252526', '#d4d4d4', '#4ec9b0', '#569cd6', '#007acc'] },
+    { id: 'terminal', name: 'Terminal', group: 'site', layout: 'terminal', mode: 'dark', by: 'Inspired by CRT terminals', c: ['#050805', '#0a110a', '#d7ffd9', '#39ff6a', '#ffb000', '#00e5ff'] },
+    { id: 'dracula', name: 'Dracula', group: 'editor', mode: 'dark', by: 'draculatheme.com', c: ['#282a36', '#21222c', '#f8f8f2', '#8be9fd', '#bd93f9', '#ff79c6'] },
+    { id: 'tokyo-night', name: 'Tokyo Night', group: 'editor', mode: 'dark', by: 'enkia / tokyo-night', c: ['#1a1b26', '#16161e', '#c0caf5', '#7dcfff', '#bb9af7', '#f7768e'] },
+    { id: 'nord', name: 'Nord', group: 'editor', mode: 'dark', by: 'nordtheme.com', c: ['#2e3440', '#3b4252', '#eceff4', '#88c0d0', '#b48ead', '#d08770'] },
+    { id: 'catppuccin-mocha', name: 'Catppuccin Mocha', group: 'editor', mode: 'dark', by: 'catppuccin.com', pair: 'catppuccin-latte', c: ['#1e1e2e', '#181825', '#cdd6f4', '#94e2d5', '#cba6f7', '#f5c2e7'] },
+    { id: 'catppuccin-latte', name: 'Catppuccin Latte', group: 'editor', mode: 'light', by: 'catppuccin.com', pair: 'catppuccin-mocha', c: ['#eff1f5', '#e6e9ef', '#4c4f69', '#11777d', '#8839ef', '#d24ba8'] },
+    { id: 'gruvbox', name: 'Gruvbox', group: 'editor', mode: 'dark', by: 'morhetz / gruvbox', c: ['#282828', '#1d2021', '#ebdbb2', '#8ec07c', '#fabd2f', '#fe8019'] },
+    { id: 'one-dark', name: 'One Dark', group: 'editor', mode: 'dark', by: 'Atom One Dark', c: ['#282c34', '#21252b', '#dcdfe4', '#56b6c2', '#c678dd', '#e06c75'] },
+    { id: 'monokai', name: 'Monokai', group: 'editor', mode: 'dark', by: 'Sublime Text classic', c: ['#272822', '#1e1f1c', '#f8f8f2', '#a6e22e', '#66d9ef', '#f92672'] },
+    { id: 'rose-pine', name: 'Rosé Pine', group: 'editor', mode: 'dark', by: 'rosepinetheme.com', c: ['#191724', '#1f1d2e', '#e0def4', '#9ccfd8', '#c4a7e7', '#ebbcba'] },
+    { id: 'synthwave', name: "Synthwave '84", group: 'editor', mode: 'dark', by: 'robb0wen / synthwave-vscode', c: ['#262335', '#1e1a2e', '#ffffff', '#36f9f6', '#ff7edb', '#fede5d'] },
+    { id: 'solarized-light', name: 'Solarized Light', group: 'editor', mode: 'light', by: 'Ethan Schoonover', c: ['#fdf6e3', '#eee8d5', '#073642', '#187771', '#6c71c4', '#d33682'] }
+  ];
   var themeListeners = [];
+  function findTheme(q) {
+    q = String(q || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    for (var i = 0; i < THEMES.length; i++) if (THEMES[i].id.replace(/-/g, '') === q || THEMES[i].name.toLowerCase().replace(/[^a-z0-9]/g, '') === q) return THEMES[i];
+    for (i = 0; i < THEMES.length; i++) if (THEMES[i].id.replace(/-/g, '').indexOf(q) === 0) return THEMES[i];
+    return null;
+  }
+  function currentTheme() { return findTheme(root.dataset.theme || 'nebula') || THEMES[0]; }
+  function setTheme(id, quiet) {
+    var t = findTheme(id) || THEMES[0], prevLayout = root.dataset.layout || '';
+    root.dataset.theme = t.id; root.dataset.mode = t.mode;
+    if (t.layout) root.dataset.layout = t.layout; else delete root.dataset.layout;
+    var meta = document.querySelector('meta[name="theme-color"]'); if (meta) meta.content = t.c[0];
+    try { localStorage.setItem('theme', t.id); } catch (e) {}
+    document.getElementById('themeName').textContent = t.name;
+    var sb = document.getElementById('sbTheme'); if (sb) sb.textContent = t.name;
+    document.querySelectorAll('.tcard').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.id === t.id); });
+    themeListeners.forEach(function (fn) { fn(t); });
+    if ((t.layout || '') !== prevLayout) window.dispatchEvent(new Event('resize'));
+    if (!quiet) toast('Theme: ' + t.name + (t.layout ? ' · layout changed' : ''));
+  }
+  var returnTo = null; // dark theme to come back to after a quick light switch
   document.getElementById('themeToggle').addEventListener('click', function () {
-    var next = root.dataset.theme === 'light' ? 'dark' : 'light';
-    root.dataset.theme = next;
-    try { localStorage.setItem('theme', next); } catch (e) {}
-    themeListeners.forEach(function (fn) { fn(); });
+    var t = currentTheme();
+    if (t.mode === 'light' && returnTo) { var r = returnTo; returnTo = null; setTheme(r); return; }
+    if (t.pair) { setTheme(t.pair); return; }
+    if (t.mode === 'dark') { returnTo = t.id; setTheme('nebula-light'); return; }
+    setTheme('nebula');
   });
 
   /* ---------------- Nav ---------------- */
@@ -132,7 +175,7 @@
 
     function readColors() {
       c1 = cssVar('--a1'); c2 = cssVar('--a2');
-      lineRGB = root.dataset.theme === 'light' ? '40,50,90' : '160,175,220';
+      lineRGB = cssVar('--line-rgb') || '160,175,220';
     }
     themeListeners.push(readColors);
 
@@ -238,6 +281,90 @@
   })();
 
   function toggleTheme() { document.getElementById('themeToggle').click(); }
+  // Sync labels with the theme applied before paint (runs once toast exists).
+  (function () { setTheme(currentTheme().id, true); })();
+
+  /* ---------------- Theme gallery ---------------- */
+  var gallery = (function themeGallery() {
+    var dlg = document.getElementById('gallery'), body = document.getElementById('galleryBody'), filter = 'all', lastFocus = null;
+    var GROUPS = [['original', 'Original', ''], ['site', 'Dev website skins', 'change colours and layout'], ['editor', 'Editor colour schemes', 'colours only']];
+    function card(t) {
+      var c = t.c;
+      return '<button class="tcard" data-id="' + t.id + '" aria-pressed="' + (t.id === currentTheme().id) + '" style="--pb:' + c[0] + '">' +
+        '<span class="tcard__prev" style="background:' + c[0] + '">' +
+          '<span class="side" style="background:' + c[1] + '"></span>' +
+          '<span class="main"><span class="ln" style="width:70%;background:' + c[2] + '"></span><span class="ln" style="width:45%;background:' + c[3] + '"></span><span class="ln" style="width:85%;background:' + c[2] + ';opacity:.35"></span><span class="ln" style="width:55%;background:' + c[4] + '"></span></span>' +
+          (t.layout ? '<span class="chip" style="background:' + c[3] + ';color:' + c[0] + '">layout</span>' : '') +
+        '</span>' +
+        '<span class="tcard__meta"><b>' + t.name + '</b><span>' + t.by + ' · ' + t.mode + '</span>' +
+          '<span class="tcard__sw">' + c.slice(3).concat(c[2]).map(function (x) { return '<i style="background:' + x + '"></i>'; }).join('') + '</span></span></button>';
+    }
+    function render() {
+      body.innerHTML = GROUPS.map(function (g) {
+        var list = THEMES.filter(function (t) {
+          return t.group === g[0] && (filter === 'all' || (filter === 'layout' ? !!t.layout : t.mode === filter));
+        });
+        if (!list.length) return '';
+        return '<section class="gallery__group"><h3>' + g[1] + (g[2] ? '<small>' + g[2] + '</small>' : '') + '</h3><div class="gallery__grid">' + list.map(card).join('') + '</div></section>';
+      }).join('');
+    }
+    function open() { lastFocus = document.activeElement; render(); dlg.hidden = false; var sel = body.querySelector('[aria-pressed="true"]') || body.querySelector('.tcard'); if (sel) sel.focus(); }
+    function close() { dlg.hidden = true; if (lastFocus) lastFocus.focus({ preventScroll: true }); }
+    document.getElementById('themeBtn').addEventListener('click', open);
+    dlg.addEventListener('click', function (e) {
+      if (e.target.closest('[data-close]')) return close();
+      var b = e.target.closest('.tcard'); if (b) setTheme(b.dataset.id);
+    });
+    document.getElementById('galleryFilter').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      filter = b.dataset.f;
+      this.querySelectorAll('button').forEach(function (x) { x.classList.toggle('is-on', x === b); });
+      render();
+    });
+    document.getElementById('galleryShuffle').addEventListener('click', function () {
+      var cur = currentTheme().id, pool = THEMES.filter(function (t) { return t.id !== cur; });
+      setTheme(pool[(Math.random() * pool.length) | 0].id);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (dlg.hidden) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'Tab') { // keep focus inside the dialog
+        var f = dlg.querySelectorAll('button'), first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+        else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
+      }
+    });
+    return { open: open };
+  })();
+
+  /* ---------------- VS Code skin: explorer + status bar ---------------- */
+  (function ide() {
+    var links = document.querySelectorAll('.ide__files a'), sbPos = document.getElementById('sbPos'), sbLang = document.getElementById('sbLang');
+    var LANG = { md: 'Markdown', py: 'Python', ipynb: 'Jupyter', ts: 'TypeScript', json: 'JSON', yaml: 'YAML', sh: 'Shell Script' };
+    function activate(id) {
+      links.forEach(function (a) {
+        var on = a.dataset.for === id; a.classList.toggle('is-active', on);
+        if (on) { var ext = a.textContent.split('.').pop(); sbLang.textContent = LANG[ext] || 'Plain Text'; }
+      });
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) activate(e.target.id); }); }, { rootMargin: '-40% 0px -55% 0px' });
+      ['top', 'about', 'rag', 'traffic', 'lab', 'ask', 'skills', 'education', 'contact'].forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+    }
+    window.addEventListener('scroll', function () {
+      if (root.dataset.layout === 'vscode') sbPos.textContent = 'Ln ' + (Math.round(scrollY / 22) + 1) + ', Col 1';
+    }, { passive: true });
+    document.querySelector('.ide__bar').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      var act = b.dataset.act;
+      if (act === 'explorer') { root.classList.toggle('ide-collapsed'); b.classList.toggle('is-on'); window.dispatchEvent(new Event('resize')); }
+      else if (act === 'search') document.getElementById('paletteBtn').click();
+      else if (act === 'git') window.open('https://github.com/akumonzzzz', '_blank', 'noopener');
+      else if (act === 'run') { if (ask) ask.focus(); }
+      else if (act === 'ext') go('skills');
+      else if (act === 'theme') gallery.open();
+    });
+  })();
   function go(id) { var el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' }); }
 
   /* ---------------- Scroll progress ---------------- */
@@ -570,7 +697,8 @@
       ['For night footage Traffic Vision applies a gamma boost before inference, recovering detections on a dark frame from 7 to 9.', 'traffic', 'Traffic Vision'],
       ['I use SAM 2.1 point prompts to auto-label bounding boxes and a Colab notebook for fine-tuning YOLO on custom data.', 'lab', 'Lab'],
       ['I fine-tuned YOLO11 on a hand-labelled custom car dataset for 100 epochs and experimented with SAHI sliced inference for small objects.', 'lab', 'Lab'],
-      ['My third project is in progress; next steps include fine-tuning on real road footage and speed estimation from track displacement.', 'lab', 'Lab'],
+      ['My third project, in progress, is building a model from scratch: implementing the forward pass, backpropagation, optimisers such as SGD, momentum and Adam, and the training loop myself instead of calling a framework.', 'lab', 'Project #3'],
+      ['For the from-scratch model I verify hand-derived gradients with numerical gradient checking and plan to benchmark the result against a framework baseline.', 'lab', 'Project #3'],
       ['My main programming language is Python; I also write JavaScript, HTML and CSS, like this site, which is hand-built with no framework.', 'skills', 'Toolkit'],
       ['I work with PyTorch, Ultralytics, OpenCV, LangGraph, the Claude API, Qdrant, FastAPI, Docker, pytest, ruff and GitHub Actions.', 'skills', 'Toolkit'],
       ['I measure before I decide, treat refusal as a feature, and ship the whole thing: API, container, CI, live demo and honest known limitations.', 'about', 'Principles'],
@@ -589,7 +717,7 @@
       language: ['languages', 'python', 'speak'], languages: ['python', 'speak', 'english'], speak: ['english', 'vietnamese'],
       python: ['python'], rag: ['retrieve', 'chatbot', 'grade'], retrieval: ['retrieve', 'rag', 'chunker', 'embedding'], embeddings: ['embedding', 'minilm', 'fastembed'], vector: ['qdrant'],
       bug: ['bug', 'fixed'], hallucination: ['refuses', 'refusal', 'cites'], hallucinate: ['refuses', 'cites'],
-      label: ['labelling', 'auto-label', 'sam'], finetune: ['fine-tuned', 'fine-tuning'], current: ['progress', 'third'], working: ['progress', 'third'],
+      label: ['labelling', 'auto-label', 'sam'], finetune: ['fine-tuned', 'fine-tuning'], current: ['progress', 'third'], working: ['progress', 'third'], scratch: ['scratch', 'backpropagation', 'framework'], backprop: ['backpropagation', 'gradient'], neural: ['model', 'backpropagation'], network: ['model'], math: ['maths', 'gradient', 'backpropagation'], maths: ['backpropagation', 'gradient'], build: ['building'], project: ['project', 'third'],
       fast: ['ms', 'fps', 'latency'], speed: ['ms', 'fps', 'latency'], night: ['night', 'gamma'], api: ['fastapi', 'rest', 'websocket'],
       ci: ['github', 'actions'], cloud: ['spaces', 'streamlit']
     };
@@ -719,17 +847,17 @@
     var CMDS = {
       help: function () {
         print('<span class="t-o">available commands:</span>');
-        print('  <span class="t-a">whoami</span>      who is this?\n  <span class="t-a">projects</span>    list shipped work\n  <span class="t-a">open</span> &lt;name&gt; rag · traffic · lab\n  <span class="t-a">skills</span>      the toolkit\n  <span class="t-a">ask</span> &lt;q&gt;     query my portfolio RAG\n  <span class="t-a">contact</span>     how to reach me\n  <span class="t-a">neofetch</span>    system info\n  <span class="t-a">theme</span>       light / dark\n  <span class="t-a">clear</span>       clear the screen');
+        print('  <span class="t-a">whoami</span>      who is this?\n  <span class="t-a">projects</span>    list shipped work\n  <span class="t-a">open</span> &lt;name&gt; rag · traffic · lab\n  <span class="t-a">skills</span>      the toolkit\n  <span class="t-a">ask</span> &lt;q&gt;     query my portfolio RAG\n  <span class="t-a">contact</span>     how to reach me\n  <span class="t-a">neofetch</span>    system info\n  <span class="t-a">theme</span> [name] 17 themes, e.g. theme dracula\n  <span class="t-a">clear</span>       clear the screen');
       },
       whoami: function () { print('<span class="t-o">Quang Duy Vuong — AI undergrad (B.IT, AI major) at Macquarie University, Sydney.\nBuilds grounded LLM systems and real-time computer vision. Measures before claiming.</span>'); },
       projects: function () {
         print(link('vietnamese-docs-rag-chatbot/', 'rag') + '  <span class="t-o">RAG that cites sources and refuses honestly · 22/22 eval</span>');
         print(link('traffic-vision/', 'traffic') + '               <span class="t-o">YOLO11 + ByteTrack, counts vehicles · 64 tests</span>');
-        print(link('project-3/', 'lab') + '                    <span class="t-o">in progress…</span>');
+        print(link('model-from-scratch/', 'lab') + '           <span class="t-o">project #3, in progress: a model built from scratch</span>');
       },
       ls: function () { CMDS.projects(); },
       open: function (arg) {
-        var map = { rag: 'rag', chatbot: 'rag', traffic: 'traffic', 'traffic-vision': 'traffic', vision: 'traffic', lab: 'lab', 'project-3': 'lab' };
+        var map = { rag: 'rag', chatbot: 'rag', traffic: 'traffic', 'traffic-vision': 'traffic', vision: 'traffic', lab: 'lab', 'project-3': 'lab', 'model-from-scratch': 'lab', model: 'lab', scratch: 'lab' };
         var t = map[(arg || '').toLowerCase()];
         if (!t) { print('<span class="t-e">usage: open rag | traffic | lab</span>'); return; }
         print('<span class="t-o">opening ' + t + '…</span>'); go(t);
@@ -747,9 +875,20 @@
         print(link('linkedin', 'contact') + '  ·  <a class="t-link" href="https://github.com/akumonzzzz" target="_blank" rel="noopener">github.com/akumonzzzz</a>  ·  <a class="t-link" href="https://huggingface.co/KaiVQ" target="_blank" rel="noopener">huggingface.co/KaiVQ</a>');
       },
       neofetch: function () {
-        print('<span class="t-ascii">◢◤ QD ◥◣</span>  <span class="t-a">quang-duy</span><span class="t-o">@macquarie</span>\n<span class="t-o">──────────────────────────</span>\n<span class="t-o">os:</span>       B.IT · Artificial Intelligence\n<span class="t-o">location:</span> Sydney, AU\n<span class="t-o">kernel:</span>   Python 3.12\n<span class="t-o">shipped:</span>  2 live AI apps\n<span class="t-o">tests:</span>    91 passing\n<span class="t-o">langs:</span>    en, vi\n<span class="t-o">status:</span>   <span class="t-g">open to internships</span>');
+        print('<span class="t-ascii">◢◤ QD ◥◣</span>  <span class="t-a">quang-duy</span><span class="t-o">@macquarie</span>\n<span class="t-o">──────────────────────────</span>\n<span class="t-o">os:</span>       B.IT · Artificial Intelligence\n<span class="t-o">location:</span> Sydney, AU\n<span class="t-o">kernel:</span>   Python 3.12\n<span class="t-o">shipped:</span>  2 live AI apps\n<span class="t-o">tests:</span>    91 passing\n<span class="t-o">langs:</span>    en, vi\n<span class="t-o">theme:</span>    ' + currentTheme().name + '\n<span class="t-o">status:</span>   <span class="t-g">open to internships</span>');
       },
-      theme: function () { toggleTheme(); print('<span class="t-o">theme → ' + root.dataset.theme + '</span>'); },
+      theme: function (arg) {
+        if (!arg) {
+          print('<span class="t-o">usage: theme &lt;name&gt; | theme random | theme gallery</span>');
+          print(THEMES.map(function (t) { return '<span class="' + (t.id === currentTheme().id ? 't-g' : 't-a') + '">' + t.id + '</span>'; }).join('  '));
+          return;
+        }
+        if (arg === 'gallery') { gallery.open(); return; }
+        if (arg === 'random') { var pool = THEMES.filter(function (t) { return t.id !== currentTheme().id; }); arg = pool[(Math.random() * pool.length) | 0].id; }
+        var t = findTheme(arg);
+        if (!t) { print('<span class="t-e">theme not found: ' + esc(arg) + '</span> <span class="t-o">— type</span> <span class="t-a">theme</span> <span class="t-o">for the list</span>'); return; }
+        setTheme(t.id); print('<span class="t-o">theme → </span><span class="t-g">' + t.name + '</span>' + (t.layout ? ' <span class="t-o">(layout changed)</span>' : ''));
+      },
       clear: function () { outEl.innerHTML = ''; },
       date: function () { print('<span class="t-o">' + new Date().toString() + '</span>'); },
       echo: function (arg) { print(esc(arg || '')); },
@@ -812,12 +951,13 @@
       ['↗', 'Open Traffic Vision live demo', 'link', function () { window.open('https://huggingface.co/spaces/KaiVQ/traffic-vision', '_blank', 'noopener'); }],
       ['↗', 'GitHub profile', 'link', function () { window.open('https://github.com/akumonzzzz', '_blank', 'noopener'); }],
       ['◐', 'Toggle light / dark theme', 'action', toggleTheme],
+      ['▦', 'Open theme gallery', 'action', function () { gallery.open(); }],
       ['⧉', 'Copy link to this portfolio', 'action', function () {
         var url = location.href.split('#')[0];
         (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () { toast('Link copied — share away!'); }, function () { toast(url); });
       }],
       ['✦', 'Celebrate', 'fun', function () { confetti(); }]
-    ];
+    ].concat(THEMES.map(function (t) { return ['●', 'Theme: ' + t.name, t.layout ? 'skin' : 'theme', function () { setTheme(t.id); }]; }));
     var shown = [], sel = 0, lastFocus = null;
 
     function render() {
@@ -846,6 +986,152 @@
     list.addEventListener('click', function (e) { var li = e.target.closest('li[data-i]'); if (li) choose(+li.dataset.i); });
     list.addEventListener('mousemove', function (e) { var li = e.target.closest('li[data-i]'); if (li && +li.dataset.i !== sel) { sel = +li.dataset.i; render(); } });
     pal.addEventListener('click', function (e) { if (e.target.hasAttribute('data-close')) closeP(); });
+  })();
+
+
+  /* ---------------- Lab: neural network from scratch ----------------
+     2 → h → h → 1 MLP, tanh hidden layers, sigmoid output, binary
+     cross-entropy, full-batch gradient descent with momentum. No libraries. */
+  (function nnPlayground() {
+    var cv = document.getElementById('nnCanvas');
+    if (!cv) return;
+    var ctx = cv.getContext('2d'), curve = document.getElementById('nnCurve'), cctx = curve.getContext('2d');
+    var S = 320, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = S * dpr; cv.height = S * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    curve.width = 160 * dpr; curve.height = 60 * dpr; cctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var G = 48, grid = document.createElement('canvas'); grid.width = grid.height = G;
+    var gctx = grid.getContext('2d'), img = gctx.createImageData(G, G);
+    var el = function (id) { return document.getElementById(id); };
+    var epochEl = el('nnEpoch'), lossEl = el('nnLoss'), accEl = el('nnAcc'), playBtn = el('nnPlay');
+    var lr = 0.3, H = 8, MOM = 0.9, data = [], net, vel, epoch = 0, losses = [], playing = false, visible = false, raf = null, addClass = 0, autoStarted = false;
+    var COL = [[251, 146, 60], [96, 165, 250]];
+
+    function randn() { var u = 1 - Math.random(), v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+    function mat(r, c, scale) { var m = new Float64Array(r * c); for (var i = 0; i < m.length; i++) m[i] = randn() * scale; return m; }
+    function zerosLike(n) { var o = {}; for (var k in n) o[k] = new Float64Array(n[k].length); return o; }
+    function init() {
+      net = { W1: mat(H, 2, Math.sqrt(1 / 2)), b1: new Float64Array(H), W2: mat(H, H, Math.sqrt(1 / H)), b2: new Float64Array(H), w3: mat(1, H, Math.sqrt(1 / H)), b3: new Float64Array(1) };
+      vel = zerosLike(net); epoch = 0; losses = [];
+    }
+
+    var h1 = new Float64Array(24), h2 = new Float64Array(24);
+    function forward(x, y) {
+      var i, j, s;
+      for (i = 0; i < H; i++) h1[i] = Math.tanh(net.W1[i * 2] * x + net.W1[i * 2 + 1] * y + net.b1[i]);
+      for (i = 0; i < H; i++) { s = net.b2[i]; for (j = 0; j < H; j++) s += net.W2[i * H + j] * h1[j]; h2[i] = Math.tanh(s); }
+      s = net.b3[0]; for (i = 0; i < H; i++) s += net.w3[i] * h2[i];
+      return 1 / (1 + Math.exp(-s));
+    }
+
+    function train(steps) {
+      if (!data.length) return;
+      var N = data.length, dz2 = new Float64Array(H), dh1 = new Float64Array(H);
+      for (var st = 0; st < steps; st++) {
+        var g = zerosLike(net), loss = 0, correct = 0;
+        for (var n = 0; n < N; n++) {
+          var d = data[n], p = forward(d.x, d.y), t = d.c, i, j;
+          loss += -(t * Math.log(p + 1e-9) + (1 - t) * Math.log(1 - p + 1e-9));
+          if ((p > .5 ? 1 : 0) === t) correct++;
+          var dz3 = p - t;                                   // dL/dz for sigmoid + BCE
+          g.b3[0] += dz3;
+          for (i = 0; i < H; i++) { g.w3[i] += dz3 * h2[i]; dz2[i] = dz3 * net.w3[i] * (1 - h2[i] * h2[i]); }
+          for (j = 0; j < H; j++) dh1[j] = 0;
+          for (i = 0; i < H; i++) {
+            g.b2[i] += dz2[i];
+            for (j = 0; j < H; j++) { g.W2[i * H + j] += dz2[i] * h1[j]; dh1[j] += net.W2[i * H + j] * dz2[i]; }
+          }
+          for (j = 0; j < H; j++) {
+            var dz1 = dh1[j] * (1 - h1[j] * h1[j]);
+            g.W1[j * 2] += dz1 * d.x; g.W1[j * 2 + 1] += dz1 * d.y; g.b1[j] += dz1;
+          }
+        }
+        for (var k in net) for (var q = 0; q < net[k].length; q++) {
+          vel[k][q] = MOM * vel[k][q] - lr * g[k][q] / N;
+          net[k][q] += vel[k][q];
+        }
+        epoch++; losses.push(loss / N); if (losses.length > 300) losses.shift();
+        stats(loss / N, correct / N);
+      }
+    }
+    function stats(l, a) { epochEl.textContent = epoch; lossEl.textContent = l.toFixed(3); accEl.textContent = Math.round(a * 100) + '%'; }
+
+    function draw() {
+      var px = img.data;
+      for (var gy = 0; gy < G; gy++) for (var gx = 0; gx < G; gx++) {
+        var p = data.length || epoch ? forward(gx / (G - 1) * 2 - 1, 1 - gy / (G - 1) * 2) : .5;
+        var a = COL[0], b = COL[1], o = (gy * G + gx) * 4, conf = Math.abs(p - .5) * 2;
+        px[o] = a[0] + (b[0] - a[0]) * p; px[o + 1] = a[1] + (b[1] - a[1]) * p; px[o + 2] = a[2] + (b[2] - a[2]) * p;
+        px[o + 3] = 40 + conf * 120;
+      }
+      gctx.putImageData(img, 0, 0);
+      ctx.fillStyle = '#0a0d14'; ctx.fillRect(0, 0, S, S);
+      ctx.imageSmoothingEnabled = true; ctx.drawImage(grid, 0, 0, S, S);
+      ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(S / 2, 0); ctx.lineTo(S / 2, S); ctx.moveTo(0, S / 2); ctx.lineTo(S, S / 2); ctx.stroke();
+      data.forEach(function (d) {
+        var x = (d.x + 1) / 2 * S, y = (1 - d.y) / 2 * S, c = COL[d.c];
+        ctx.beginPath(); ctx.arc(x, y, 4.2, 0, 6.283);
+        ctx.fillStyle = 'rgb(' + c.join(',') + ')'; ctx.fill(); ctx.lineWidth = 1.4; ctx.strokeStyle = '#fff'; ctx.stroke();
+      });
+      if (!data.length) { ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = '13px ' + cssVar('--mono'); ctx.textAlign = 'center'; ctx.fillText('click to add points', S / 2, S / 2 - 8); ctx.textAlign = 'start'; }
+      // loss curve
+      cctx.clearRect(0, 0, 160, 60);
+      if (losses.length > 1) {
+        var mx = Math.max.apply(null, losses), mn = Math.min.apply(null, losses);
+        cctx.strokeStyle = cssVar('--a1'); cctx.lineWidth = 1.6; cctx.beginPath();
+        losses.forEach(function (l, i) { var x = 4 + i / (losses.length - 1) * 152, y = 54 - (l - mn) / ((mx - mn) || 1) * 48; i ? cctx.lineTo(x, y) : cctx.moveTo(x, y); });
+        cctx.stroke();
+      }
+    }
+
+    function makeData(kind) {
+      var pts = [], i, n;
+      function jit(s) { return (Math.random() - .5) * s; }
+      if (kind === 'xor') for (i = 0; i < 120; i++) { var x = (Math.random() - .5) * 1.8, y = (Math.random() - .5) * 1.8; if (Math.abs(x) < .08 || Math.abs(y) < .08) { i--; continue; } pts.push({ x: x, y: y, c: x * y > 0 ? 0 : 1 }); }
+      if (kind === 'circle') for (i = 0; i < 140; i++) { var r = i % 2 ? Math.random() * .4 : .6 + Math.random() * .3, a = Math.random() * 6.283; pts.push({ x: r * Math.cos(a), y: r * Math.sin(a), c: i % 2 }); }
+      if (kind === 'spiral') for (n = 0; n < 2; n++) for (i = 0; i < 70; i++) { var t = i / 70 * 3.2 + .3, ang = t * 1.9 + n * Math.PI; pts.push({ x: t / 3.6 * Math.cos(ang) + jit(.06), y: t / 3.6 * Math.sin(ang) + jit(.06), c: n }); }
+      return pts;
+    }
+    function setData(kind) { data = makeData(kind); init(); draw(); if (kind !== 'blank' && !reduceMotion) setPlaying(true); }
+
+    function loop() {
+      if (!playing || !visible) { raf = null; return; }
+      train(6); draw();
+      if (epoch >= 4000) { setPlaying(false); return; }
+      raf = requestAnimationFrame(loop);
+    }
+    function setPlaying(on) {
+      playing = on; playBtn.setAttribute('aria-pressed', on); playBtn.textContent = on ? '❚❚ Pause' : '▶ Train';
+      if (on && visible && !raf) raf = requestAnimationFrame(loop);
+    }
+
+    el('nnData').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      this.querySelectorAll('button').forEach(function (x) { x.classList.toggle('is-on', x === b); });
+      setData(b.dataset.set);
+    });
+    playBtn.addEventListener('click', function () { if (!playing && epoch >= 4000) epoch = 0; setPlaying(!playing); });
+    el('nnStep').addEventListener('click', function () { setPlaying(false); train(10); draw(); });
+    el('nnReset').addEventListener('click', function () { init(); draw(); epochEl.textContent = 0; lossEl.textContent = accEl.textContent = '—'; });
+    el('nnClass').addEventListener('click', function () {
+      addClass = 1 - addClass; this.setAttribute('aria-pressed', !!addClass);
+      this.innerHTML = 'adding: <b>' + (addClass ? 'blue' : 'orange') + '</b>';
+    });
+    el('nnLr').addEventListener('input', function () { lr = +this.value; el('nnLrOut').textContent = lr.toFixed(2); });
+    el('nnH').addEventListener('input', function () { H = +this.value; el('nnHOut').textContent = H; init(); draw(); });
+    cv.addEventListener('click', function (e) {
+      var r = cv.getBoundingClientRect();
+      data.push({ x: (e.clientX - r.left) / r.width * 2 - 1, y: 1 - (e.clientY - r.top) / r.height * 2, c: e.shiftKey ? 1 - addClass : addClass });
+      if (epoch >= 4000) epoch = 0;
+      draw(); if (!reduceMotion && data.length > 3) setPlaying(true);
+    });
+
+    data = makeData('xor'); init(); draw();
+    whileVisible(cv, function () {
+      visible = true;
+      if (!autoStarted && !reduceMotion) { autoStarted = true; setPlaying(true); }
+      else if (playing && !raf) raf = requestAnimationFrame(loop);
+    }, function () { visible = false; });
   })();
 
   /* ---------------- Easter egg: Konami code ---------------- */
