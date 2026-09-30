@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quang Duy Vuong — AI Engineer</title>
+  <meta name="description" content="Quang Duy Vuong — AI undergraduate at Macquarie University building grounded LLM systems and real-time computer vision. RAG pipelines, object tracking, measured results.">
+  <meta name="author" content="Quang Duy Vuong">
+  <meta name="theme-color" content="#06080f">
+
+  <!-- Link previews (LinkedIn, Slack, etc.) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Quang Duy Vuong — AI Engineer">
+  <meta property="og:description" content="AI undergraduate at Macquarie University. I build AI systems that know when they don't know — and I measure before I claim.">
+  <meta property="og:image" content="https://akumonzzzz.github.io/Linkedin-portfolio-/assets/img/og.png">
+  <meta property="og:url" content="https://akumonzzzz.github.io/Linkedin-portfolio-/">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    // Apply saved theme before paint to avoid a flash.
+    try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav" id="nav">
+    <a class="nav__logo" href="#top" aria-label="Back to top">
+      <span class="nav__mark">QD</span><span class="nav__dot"></span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#lab">Lab</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav__actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle colour theme">
+        <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <a class="btn btn--sm btn--ghost nav__cta" href="https://github.com/akumonzzzz" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top">
+      <canvas id="neural" class="hero__canvas" aria-hidden="true"></canvas>
+      <div class="hero__inner container">
+        <p class="eyebrow reveal"><span class="pulse"></span> Open to AI / ML internships &amp; graduate roles</p>
+        <h1 class="hero__title reveal">
+          <span class="hero__hello">Hi, I'm</span>
+          <span class="hero__name">Quang Duy <span class="grad">Vuong</span></span>
+        </h1>
+        <p class="hero__role reveal">
+          <span class="mono muted">&gt;</span> AI Engineer building <span class="typed" id="typed" aria-live="polite">grounded LLM systems</span><span class="caret" aria-hidden="true"></span>
+        </p>
+        <p class="hero__lede reveal">
+          Bachelor of IT (Artificial Intelligence) undergraduate at <strong>Macquarie University</strong>, Sydney.
+          I build AI systems that <em>know when they don't know</em> — and I measure before I claim.
+        </p>
+        <div class="hero__cta reveal">
+          <a class="btn btn--primary" href="#work">See my work <span aria-hidden="true">→</span></a>
+          <a class="btn btn--ghost" href="#contact">Get in touch</a>
+        </div>
+
+        <div class="terminal reveal" role="img" aria-label="Terminal summary: two shipped AI projects, 91 automated tests, 22 of 22 evaluation cases passing">
+          <div class="terminal__bar"><span></span><span></span><span></span><em>~/quang-duy — zsh</em></div>
+          <pre class="terminal__body"><code><span class="t-p">$</span> whoami
+<span class="t-o">quang-duy · ai-undergrad @ macquarie · sydney, au</span>
+<span class="t-p">$</span> ls ./shipped
+<span class="t-a">vietnamese-docs-rag-chatbot/</span>  <span class="t-a">traffic-vision/</span>
+<span class="t-p">$</span> pytest --all -q
+<span class="t-g">91 passed</span> <span class="t-o">· golden-set eval 22/22 · ci ✓</span>
+<span class="t-p">$</span> <span class="t-cursor">▍</span></code></pre>
+        </div>
+      </div>
+      <a class="scroll-hint" href="#about" aria-label="Scroll to About"><span></span></a>
+    </section>
+
+    <!-- ============ STATS ============ -->
+    <section class="stats container" aria-label="Highlights">
+      <div class="stat reveal"><b data-count="2">0</b><span>AI apps live in production demos</span></div>
+      <div class="stat reveal"><b data-count="91">0</b><span>automated tests across projects</span></div>
+      <div class="stat reveal"><b><span data-count="22">0</span>/22</b><span>golden-set eval, incl. refusals &amp; prompt injection</span></div>
+      <div class="stat reveal"><b>~<span data-count="93">0</span>ms</b><span>CPU-only object detection per frame</span></div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section container" id="about">
+      <div class="section__head reveal">
+        <span class="section__num">01</span>
+        <h2>About</h2>
+      </div>
+      <div class="about">
+        <div class="about__text reveal">
+          <p class="big">I'm an AI undergraduate who likes the unglamorous half of machine learning: the evaluation sets, the failure modes, and the design decisions that make a demo survive contact with real users.</p>
+          <p>I'm studying a Bachelor of Information Technology majoring in Artificial Intelligence at Macquarie University. Outside class I ship end-to-end projects — from data and models to APIs, containers, CI and a live deployment someone can actually click.</p>
+          <p>Two threads run through my work. In <strong>LLM systems</strong>, I care about grounding: retrieval that can say <em>"I couldn't find that"</em> instead of inventing an answer. In <strong>computer vision</strong>, I care about the step after detection — tracking identity over time so a system can count, not just see.</p>
+          <p>I'm bilingual in Vietnamese and English, which is why my first RAG system was built for Vietnamese documents — including questions typed without diacritics, the way people actually type in a hurry.</p>
+        </div>
+        <aside class="about__card reveal" aria-label="Quick facts">
+          <div class="portrait" aria-hidden="true">
+            <span>QD</span>
+            <svg viewBox="0 0 200 200"><defs><linearGradient id="pg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="var(--a1)"/><stop offset="1" stop-color="var(--a2)"/></linearGradient></defs><circle cx="100" cy="100" r="96" fill="none" stroke="url(#pg)" stroke-width="2" stroke-dasharray="6 10"/></svg>
+          </div>
+          <dl class="facts">
+            <div><dt>Studying</dt><dd>B. Information Technology — AI major</dd></div>
+            <div><dt>University</dt><dd>Macquarie University</dd></div>
+            <div><dt>Based in</dt><dd>Sydney, Australia</dd></div>
+            <div><dt>Focus</dt><dd>LLM / RAG · Computer vision · MLOps</dd></div>
+            <div><dt>Languages</dt><dd>English · Vietnamese</dd></div>
+          </dl>
+        </aside>
+      </div>
+
+      <div class="principles">
+        <article class="principle reveal">
+          <span class="principle__icon" aria-hidden="true">◎</span>
+          <h3>Measure, then decide</h3>
+          <p>I benchmarked three fixes for weak car recall before choosing one, and measured a 10× smaller embedding model before trusting it.</p>
+        </article>
+        <article class="principle reveal">
+          <span class="principle__icon" aria-hidden="true">⊘</span>
+          <h3>Refusal is a feature</h3>
+          <p>A system that says "not in the documents" is worth more than one that sounds confident. I test for it explicitly.</p>
+        </article>
+        <article class="principle reveal">
+          <span class="principle__icon" aria-hidden="true">▣</span>
+          <h3>Ship the whole thing</h3>
+          <p>APIs, Docker images, CI, live deployments and a README that states known limitations plainly.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ WORK ============ -->
+    <section class="section container" id="work">
+      <div class="section__head reveal">
+        <span class="section__num">02</span>
+        <h2>Selected work</h2>
+        <p class="section__sub">Two shipped projects, each with a live demo, tests and honest numbers.</p>
+      </div>
+
+      <!-- Project 1: RAG -->
+      <article class="project reveal" id="rag">
+        <div class="project__meta">
+          <span class="tag tag--a1">LLM · RAG</span>
+          <span class="tag">Live</span>
+          <span class="tag">MIT</span>
+        </div>
+        <div class="project__grid">
+          <div class="project__body">
+            <h3 class="project__title">Vietnamese Docs RAG Chatbot</h3>
+            <p class="project__pitch">A question-answering chatbot over Vietnamese documents that cites its sources — and <strong>refuses to answer</strong> when the documents don't contain the answer.</p>
+
+            <h4>The problem</h4>
+            <p>Vector search measures semantic <em>closeness</em>, not whether a passage actually answers the question. Most RAG demos pass "nearby-sounding" chunks to the model and it fabricates an answer from them.</p>
+
+            <h4>What I built</h4>
+            <ul class="bullets">
+              <li>A <strong>LangGraph</strong> pipeline — <code>retrieve → grade → generate | no_answer</code> — where Claude Haiku grades every retrieved chunk in parallel before Claude Opus writes an answer.</li>
+              <li>A hand-written, Vietnamese-aware <strong>semantic chunker</strong> that splits by section → paragraph → sentence and prefixes each chunk with its section heading. Retrieval score rose from ~0.82 to ~0.88.</li>
+              <li>A <strong>22-case golden test set</strong> grouped by failure type: lookups, no-diacritic input, paraphrase, must-refuse, and prompt-injection.</li>
+              <li>Benchmarked a <strong>10× smaller</strong> embedding model (MiniLM vs e5-large) before switching for cheaper cold starts — top-1 accuracy 6/8 vs 5/8.</li>
+            </ul>
+
+            <div class="metrics">
+              <div><b>22/22</b><span>golden-set eval</span></div>
+              <div><b>27/27</b><span>offline tests</span></div>
+              <div><b>10×</b><span>smaller embeddings, no loss</span></div>
+            </div>
+
+            <ul class="stack" aria-label="Tech stack">
+              <li>Python</li><li>LangGraph</li><li>Claude API</li><li>Qdrant</li><li>fastembed / ONNX</li><li>FastAPI</li><li>Streamlit</li><li>Docker</li><li>pytest</li>
+            </ul>
+
+            <div class="project__links">
+              <a class="btn btn--primary btn--sm" href="https://vietnamese-docs-rag-chatbot-dpxb5amujxhhxqwnkz6cdg.streamlit.app/" target="_blank" rel="noopener">Live demo ↗</a>
+              <a class="btn btn--ghost btn--sm" href="https://github.com/akumonzzzz/vietnamese-docs-rag-chatbot" target="_blank" rel="noopener">Source code ↗</a>
+            </div>
+          </div>
+
+          <div class="project__visual">
+            <div class="viz viz--rag" id="ragSim" aria-label="Animated illustration: the chatbot grades six retrieved passages, keeps the relevant one and answers with a citation, or rejects all six and says it could not find the answer.">
+              <div class="viz__head"><span class="dot"></span> pipeline.run()</div>
+              <div class="rag__q"><span class="mono muted">Q</span> <span id="ragQ">Được làm việc từ xa mấy ngày một tuần?</span></div>
+              <div class="rag__stages">
+                <span class="stage" data-stage="retrieve">retrieve</span>
+                <span class="stage" data-stage="grade">grade</span>
+                <span class="stage" data-stage="generate">generate</span>
+              </div>
+              <ol class="rag__chunks" id="ragChunks"></ol>
+              <div class="rag__a" id="ragA"></div>
+            </div>
+            <figure class="shot">
+              <img src="assets/img/rag-demo.gif" alt="Screen recording of the Vietnamese RAG chatbot answering one question with a citation and refusing another" loading="lazy" width="640" height="400">
+              <figcaption>Real app: one answer with citation, one honest refusal.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 2: Traffic Vision -->
+      <article class="project project--flip reveal" id="traffic">
+        <div class="project__meta">
+          <span class="tag tag--a2">Computer Vision</span>
+          <span class="tag">Live</span>
+          <span class="tag">CI ✓</span>
+        </div>
+        <div class="project__grid">
+          <div class="project__body">
+            <h3 class="project__title">Traffic Vision</h3>
+            <p class="project__pitch">Real-time traffic detection <em>and tracking</em> for images, video clips and live camera feeds. Every vehicle gets a persistent ID and is counted once as it crosses a virtual line.</p>
+
+            <h4>Why tracking, not just detection</h4>
+            <p>Detection answers "what's in this frame". A traffic camera needs "is that the same car I saw a second ago?" — without identity you can't count flow without double-counting.</p>
+
+            <h4>What I built</h4>
+            <ul class="bullets">
+              <li><strong>YOLO11s + ByteTrack</strong> served over <strong>FastAPI</strong>: REST for images, async jobs for video (H.264 output), and a <strong>WebSocket</strong> live-camera stream with built-in backpressure.</li>
+              <li>Chose the model by measurement: compared YOLO11n/s at 640/1280 px — <strong>yolo11s @ 640</strong> won every accuracy metric for +21 ms.</li>
+              <li>Found and fixed a subtle concurrency bug: Ultralytics keeps tracker state on the model, so I isolate <strong>one model per session</strong> to stop counts leaking between users.</li>
+              <li>Low-light gamma boost, SAM 2.1 point-prompt auto-labelling, a Colab fine-tuning notebook, RTSP CLI, Docker and GitHub Actions CI.</li>
+            </ul>
+
+            <div class="metrics">
+              <div><b>~93ms</b><span>median CPU inference</span></div>
+              <div><b>~17fps</b><span>video throughput, CPU</span></div>
+              <div><b>64</b><span>tests · lint · docker CI</span></div>
+            </div>
+
+            <ul class="stack" aria-label="Tech stack">
+              <li>PyTorch</li><li>Ultralytics YOLO11</li><li>ByteTrack</li><li>SAM 2.1</li><li>OpenCV</li><li>FastAPI</li><li>WebSockets</li><li>ffmpeg</li><li>Docker</li><li>GitHub Actions</li><li>Hugging Face</li>
+            </ul>
+
+            <div class="project__links">
+              <a class="btn btn--primary btn--sm" href="https://huggingface.co/spaces/KaiVQ/traffic-vision" target="_blank" rel="noopener">Live demo ↗</a>
+              <a class="btn btn--ghost btn--sm" href="https://github.com/akumonzzzz/traffic-vision" target="_blank" rel="noopener">Source code ↗</a>
+              <a class="btn btn--ghost btn--sm" href="https://huggingface.co/spaces/KaiVQ/traffic-vision/docs" target="_blank" rel="noopener">API docs ↗</a>
+            </div>
+          </div>
+
+          <div class="project__visual">
+            <div class="viz viz--traffic" aria-label="Animated illustration: vehicles tracked with persistent IDs and counted as they cross a line.">
+              <div class="viz__head"><span class="dot dot--a2"></span> bytetrack · line_y=0.55</div>
+              <canvas id="trafficSim" width="560" height="340"></canvas>
+              <div class="traffic__hud">
+                <span>IN <b id="tIn">0</b></span>
+                <span>OUT <b id="tOut">0</b></span>
+                <span>UNIQUE <b id="tUniq">0</b></span>
+              </div>
+            </div>
+            <figure class="shot">
+              <img src="https://media.githubusercontent.com/media/akumonzzzz/traffic-vision/main/docs/tracking.jpg" onerror="this.closest('figure').hidden=true" alt="Traffic Vision output: vehicles with persistent track IDs, motion trails and a counting line" loading="lazy" width="640" height="360">
+              <figcaption>Real output: persistent IDs, motion trails, line counting.</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <details class="table-wrap">
+          <summary>How I picked the model — the benchmark</summary>
+          <table>
+            <thead><tr><th>Model</th><th>imgsz</th><th>car recall</th><th>car mAP50</th><th>all mAP50</th><th>latency</th></tr></thead>
+            <tbody>
+              <tr><td>yolo11n</td><td>640</td><td>0.174</td><td>0.241</td><td>0.642</td><td>72 ms</td></tr>
+              <tr><td>yolo11n</td><td>1280</td><td>0.304</td><td>0.432</td><td>0.571</td><td>181 ms</td></tr>
+              <tr class="win"><td>yolo11s</td><td>640</td><td>0.255</td><td>0.442</td><td>0.685</td><td>93 ms</td></tr>
+              <tr><td>yolo11s</td><td>1280</td><td>0.408</td><td>0.550</td><td>0.635</td><td>343 ms</td></tr>
+            </tbody>
+          </table>
+          <p class="muted small">Measured on COCO128 restricted to traffic classes, CPU. A floor, not a claim about real road footage — fine-tuning on traffic data is the next lever.</p>
+        </details>
+      </article>
+    </section>
+
+    <!-- ============ LAB ============ -->
+    <section class="section container" id="lab">
+      <div class="section__head reveal">
+        <span class="section__num">03</span>
+        <h2>In the lab</h2>
+        <p class="section__sub">What I'm building right now.</p>
+      </div>
+
+      <article class="lab reveal">
+        <div class="lab__status"><span class="pulse"></span> In progress</div>
+        <div class="lab__grid">
+          <div>
+            <h3>Project #3 — coming soon</h3>
+            <p>My next project is under way. Alongside it I'm running detection experiments that push past what stock weights can do:</p>
+            <ul class="checklist">
+              <li class="done">Fine-tuned YOLO11 on a hand-labelled custom dataset (100 epochs)</li>
+              <li class="done">SAM 2 point-prompts → YOLO labels, to cut annotation time</li>
+              <li class="done">SAHI sliced inference for small objects in high-resolution frames</li>
+              <li>Fine-tune on real road footage and publish mAP50-95</li>
+              <li>Speed estimation from track displacement</li>
+            </ul>
+            <p class="muted small">Follow along on <a href="https://github.com/akumonzzzz" target="_blank" rel="noopener">GitHub</a>.</p>
+          </div>
+          <figure class="shot shot--lab">
+            <img src="assets/img/lab-finetune.jpg" alt="Validation batch predictions from a YOLO11 model fine-tuned on a custom car dataset" loading="lazy" width="640" height="640">
+            <figcaption>Validation predictions from a custom fine-tune.</figcaption>
+          </figure>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section class="section container" id="skills">
+      <div class="section__head reveal">
+        <span class="section__num">04</span>
+        <h2>Toolkit</h2>
+        <p class="section__sub">Everything here is used in a shipped project — not just listed.</p>
+      </div>
+      <div class="skills">
+        <div class="skill-group reveal">
+          <h3><span class="sg-icon">⌘</span> LLM &amp; RAG</h3>
+          <ul><li>Claude API</li><li>LangGraph</li><li>Retrieval-augmented generation</li><li>Embeddings (e5, MiniLM)</li><li>Qdrant vector DB</li><li>LLM-as-grader</li><li>Golden-set evaluation</li><li>Prompt-injection testing</li></ul>
+        </div>
+        <div class="skill-group reveal">
+          <h3><span class="sg-icon">◉</span> Computer vision</h3>
+          <ul><li>PyTorch</li><li>Ultralytics YOLO11</li><li>ByteTrack / BoT-SORT</li><li>SAM 2.1</li><li>SAHI</li><li>OpenCV</li><li>Fine-tuning &amp; mAP eval</li><li>Dataset labelling</li></ul>
+        </div>
+        <div class="skill-group reveal">
+          <h3><span class="sg-icon">⇄</span> Serving &amp; MLOps</h3>
+          <ul><li>FastAPI</li><li>REST &amp; WebSockets</li><li>Docker / Compose</li><li>GitHub Actions CI</li><li>Hugging Face Spaces</li><li>Streamlit Cloud</li><li>ONNX runtime</li><li>ffmpeg</li></ul>
+        </div>
+        <div class="skill-group reveal">
+          <h3><span class="sg-icon">{}</span> Languages &amp; practice</h3>
+          <ul><li>Python</li><li>JavaScript</li><li>HTML / CSS</li><li>pytest</li><li>ruff</li><li>Git &amp; GitHub</li><li>Technical writing</li><li>Accessibility (WCAG)</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EDUCATION ============ -->
+    <section class="section container" id="education">
+      <div class="section__head reveal">
+        <span class="section__num">05</span>
+        <h2>Education</h2>
+      </div>
+      <div class="timeline">
+        <div class="tl-item reveal">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <span class="tl-when">Current</span>
+            <h3>Bachelor of Information Technology — Artificial Intelligence</h3>
+            <p class="tl-where">Macquarie University · Sydney, Australia</p>
+            <p>Studying the foundations of machine learning, data and software engineering, and applying them in self-directed, production-style projects.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section container contact" id="contact">
+      <div class="contact__card reveal">
+        <span class="section__num">06</span>
+        <h2>Let's build something <span class="grad">that works</span>.</h2>
+        <p>I'm looking for AI / ML engineering internships and graduate opportunities. If you're hiring — or just want to talk RAG, tracking, or evaluation — I'd love to hear from you.</p>
+        <div class="contact__links">
+          <a class="btn btn--primary" href="https://www.linkedin.com/in/" target="_blank" rel="noopener" id="linkedinLink">Connect on LinkedIn ↗</a>
+          <a class="btn btn--ghost" href="https://github.com/akumonzzzz" target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="btn btn--ghost" href="https://huggingface.co/KaiVQ" target="_blank" rel="noopener">Hugging Face ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <p>© <span id="year">2026</span> Quang Duy Vuong · Built by hand with HTML, CSS &amp; vanilla JS.</p>
+    <a href="#top" class="muted">Back to top ↑</a>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
