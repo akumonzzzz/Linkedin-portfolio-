@@ -49,7 +49,7 @@ python3 -m http.server 8000
 
 | What | Where |
 |---|---|
-| LinkedIn URL | `index.html`: search for `linkedin.com/in/` |
+| LinkedIn URL | `index.html` (contact button, `rel="me"`, JSON-LD) and `assets/js/main.js` (terminal, palette) |
 | Project #3 roadmap | `index.html`: the `.roadmap` list in `#lab` |
 | Education years or other details | `index.html`: the `#education` section |
 | Colours | `assets/css/style.css`: the `--a1`, `--a2` and `--a3` tokens in `:root` |
