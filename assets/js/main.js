@@ -874,7 +874,7 @@
         if (ask) { go('ask'); setTimeout(function () { ask.run(arg); }, 450); }
       },
       contact: function () {
-        print('<a class="t-link" href="https://www.linkedin.com/in/quang-duy-vuong-2880921a0/" target="_blank" rel="noopener">linkedin.com/in/quang-duy-vuong</a>  ·  <a class="t-link" href="https://github.com/akumonzzzz" target="_blank" rel="noopener">github.com/akumonzzzz</a>  ·  <a class="t-link" href="https://huggingface.co/KaiVQ" target="_blank" rel="noopener">huggingface.co/KaiVQ</a>');
+        print('<a class="t-link" href="https://www.linkedin.com/in/quangduyvuong/" target="_blank" rel="noopener">linkedin.com/in/quangduyvuong</a>  ·  <a class="t-link" href="https://github.com/akumonzzzz" target="_blank" rel="noopener">github.com/akumonzzzz</a>  ·  <a class="t-link" href="https://huggingface.co/KaiVQ" target="_blank" rel="noopener">huggingface.co/KaiVQ</a>');
       },
       neofetch: function () {
         print('<span class="t-ascii">◢◤ QD ◥◣</span>  <span class="t-a">quang-duy</span><span class="t-o">@macquarie</span>\n<span class="t-o">──────────────────────────</span>\n<span class="t-o">os:</span>       B.IT · Artificial Intelligence\n<span class="t-o">location:</span> Sydney, AU\n<span class="t-o">kernel:</span>   Python 3.12\n<span class="t-o">shipped:</span>  2 live AI apps\n<span class="t-o">tests:</span>    91 passing\n<span class="t-o">langs:</span>    en, vi\n<span class="t-o">theme:</span>    ' + currentTheme().name + '\n<span class="t-o">status:</span>   <span class="t-g">open to internships</span>');
@@ -951,7 +951,7 @@
       ['✉', 'Contact', 'section', function () { go('contact'); }],
       ['↗', 'Open RAG chatbot live demo', 'link', function () { window.open('https://vietnamese-docs-rag-chatbot-dpxb5amujxhhxqwnkz6cdg.streamlit.app/', '_blank', 'noopener'); }],
       ['↗', 'Open Traffic Vision live demo', 'link', function () { window.open('https://huggingface.co/spaces/KaiVQ/traffic-vision', '_blank', 'noopener'); }],
-      ['↗', 'LinkedIn profile', 'link', function () { window.open('https://www.linkedin.com/in/quang-duy-vuong-2880921a0/', '_blank', 'noopener'); }],
+      ['↗', 'LinkedIn profile', 'link', function () { window.open('https://www.linkedin.com/in/quangduyvuong/', '_blank', 'noopener'); }],
       ['↗', 'GitHub profile', 'link', function () { window.open('https://github.com/akumonzzzz', '_blank', 'noopener'); }],
       ['◐', 'Toggle light / dark theme', 'action', toggleTheme],
       ['▦', 'Open theme gallery', 'action', function () { gallery.open(); }],
